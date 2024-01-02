@@ -1,0 +1,56 @@
+img {
+  object-fit: contain;
+  max-width: 100%;
+}
+
+.primary-image {
+  height: 300px;
+}
+
+.images {
+  height: 150px;
+}
+
+.table-background {
+  min-height: 100vh;
+  background: #c4d3f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 33px 30px;
+}
+
+.table-container{
+  width: 1000px;
+}
+
+.table {
+  border-radius: 10px; /* 调整您想要的边框半径值 */
+  overflow: hidden; /* 以确保边框半径生效 */
+}
+
+table thead {
+  color: #fff;
+  background: #6c7ae0;
+}
+
+thead>tr>th:nth-child(1){
+  padding: 20px 0 20px 40px !important;
+}
+
+thead>tr>th{
+  padding: 20px 0 20px 0px !important;
+}
+
+tbody>tr>td:nth-child(1){
+  padding: 20px 0 20px 40px !important;
+}
+
+tbody>tr>td{
+  padding: 20px 0 20px 0px !important;
+}
+
+.table-hover>tbody>tr:hover>*{
+  --bs-table-accent-bg: #ececff !important;
+}
