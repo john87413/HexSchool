@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-light" v-for="product in products">
+                        <tr class="table-light" v-for="(product, index) in products" :key="index">
                             <td>{{ product.title }}</td>
                             <td>
                                 {{ product.origin_price }}
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div v-for="product in products" class="modal fade" :id="product.id" tabindex="-1" aria-labelledby="modalLabel"
+        <div v-for="(product, index) in products" :key="index" class="modal fade" :id="product.id" tabindex="-1" aria-labelledby="modalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
