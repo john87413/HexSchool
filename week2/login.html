@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week2</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <style>
+    body {
+      background: #222431;
+    }
+
+    .login-page {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .login-form-wrap {
+      background: #f6f6f6;
+      border-radius: 20px;
+      height: 70vh;
+    }
+
+    .left-side {
+      background-image: url("LoginBear.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+      border-radius: 20px 0 0 20px;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+  <div id="app" class="login-page">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-4 left-side"></div>
+
+        <div class="col-4">
+          <div class="login-form-wrap d-flex flex-column align-items-center justify-content-center px-4">
+            <h1 class="h3 mb-3 font-weight-normal">
+              請先登入
+            </h1>
+            <form class="col-12 form-signin" @submit.prevent="login">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" v-model="user.username" id="floatingInput"
+                  placeholder="name@example.com" required autofocus>
+                <label for="floatingInput">Email address</label>
+              </div>
+              <div class="form-floating">
+                <input type="password" class="form-control" v-model="user.password" id="floatingPassword"
+                  placeholder="Password" required>
+                <label for="floatingPassword">Password</label>
+              </div>
+              <button class="btn btn-lg btn-primary w-100 mt-3" type="submit">
+                登入
+              </button>
+            </form>
+            <p class="mt-3 mb-3 text-muted">
+              &copy; 2023~∞ - HappyCoding
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+  <script src="./login.js" type="module"></script>
+  <script src="./particlesSnow.js"></script>
+</body>
+
+</html>
