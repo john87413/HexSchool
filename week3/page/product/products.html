@@ -185,7 +185,7 @@
                 新增圖片
               </button>
             </div>
-            <div class="row" v-if="tempProduct.imagesUrl.length > 0">
+            <div class="row" v-if="Array.isArray(tempProduct.imagesUrl) && tempProduct.imagesUrl.length > 0">
               <div class="mb-3 col-6" v-for="(image, index) in tempProduct.imagesUrl" :key="index">
                 <div class="mb-3">
                   <label :for="`imagesUrl${index}`" class="form-label">圖片網址</label>

@@ -108,6 +108,9 @@ createApp({
     },
     // add image
     createImages() {
+      if (!this.tempProduct.imagesUrl){
+        this.tempProduct.imagesUrl = [];
+      }
       this.tempProduct.imagesUrl.push('');
     },
   },
