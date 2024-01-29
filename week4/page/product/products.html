@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week4</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <style>
+    body {
+      background: #222431;
+    }
+
+    [v-cloak] {
+      display: none;
+    }
+
+    .table-container {
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+  <div id="app" class="vh-100 container" v-cloak>
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-md-12 col-lg-11 rounded-3 overflow-hidden p-0 bg-white">
+        <div class="table-title px-4 py-3 mb-3 bg-primary-subtle d-flex justify-content-between">
+          <h3 class="m-0">動物領養</h3>
+          <button type="button" class="btn btn-primary" @click="openModal('new')">新增動物</button>
+        </div>
+
+        <div class="table-container px-4 mb-3 fs-5">
+          <table class="table table-striped table-hover table-borderless m-0">
+            <thead class="sticky-top">
+              <tr>
+                <th scope="col" class="col-2">分類</th>
+                <th scope="col" class="col-2">動物名稱</th>
+                <th scope="col" class="col-1">原價</th>
+                <th scope="col" class="col-1">售價</th>
+                <th scope="col" class="col-1">啟用</th>
+                <th scope="col" class="col-2">編輯</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in products" :key="item.id">
+                <td>{{item.category}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.origin_price}}</td>
+                <td>{{item.price}}</td>
+                <td>
+                  <span v-if="item.is_enabled">啟用</span>
+                  <span v-else>未啟用</span>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-success me-2"
+                    @click="openModal('edit', item)">編輯</button>
+                  <button type="button" class="btn btn-outline-danger" @click="openModal('delete', item)">刪除</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- pagination -->
+        <pagination class="px-4" :pages="pagination" @emit-pages="getData"></pagination>
+      </div>
+    </div>
+
+    <!-- modal for create & update -->
+    <create-update-product-modal ref="createUpdateProduct" :product="tempProduct" :is-new="isNew"
+      @update="getData"></create-update-product-modal>
+
+    <!-- modal for delete -->
+    <del-product-modal ref="delProduct" :product="tempProduct" @update="getData"><del-product-modal>
+
+  </div>
+
+  <script type="text/x-template" id="pagination">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" :class="{'disabled': pages.current_page === 1}">
+          <a class="page-link" href="#" aria-label="Previous" @click.prevent="emitPages(pages.current_page - 1)">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" v-for="(item, index) in pages.total_pages" :key="index"
+          :class="{'active': item === pages.current_page}">
+          <span class="page-link" v-if="item === pages.current_page">{{ item }}</span>
+          <a class="page-link" href="#" v-else @click.prevent="emitPages(item)">{{ item }}</a>
+        </li>
+        <li class="page-item" :class="{'disabled': pages.current_page === pages.total_pages}">
+          <a class="page-link" href="#" aria-label="Next" @click="emitPages(pages.current_page + 1)">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </script>
+
+  <script type="text/x-template" id="createUpdateProductModal">
+    <div id="createUpdateProductModal" ref="createUpdateProductModal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-primary-subtle">
+          <h5 id="createUpdateProductModalLabel" class="modal-title">
+            <span v-if="isNew">新增產品</span>
+            <span v-else>編輯產品</span>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+              <label class="form-label" for="imageUrl">主要圖片</label>
+              <input id="imageUrl" v-model="product.imageUrl" class="form-control mb-2" type="text"
+                placeholder="請輸入圖片連結">
+              <img class="img-fluid" :src="product.imageUrl" alt="">
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="title" class="form-label">動物名稱</label>
+                <input id="title" v-model="product.title" class="form-control" type="text" placeholder="請輸入動物名稱">
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-6">
+                  <label for="category" class="form-label">分類</label>
+                  <input id="category" v-model="product.category" class="form-control" type="text"
+                    placeholder="請輸入分類">
+                </div>
+                <div class="col-6">
+                  <label for="unit" class="form-label">單位</label>
+                  <input id="unit" v-model="product.unit" class="form-control" type="text" placeholder="請輸入單位">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-6">
+                  <label for="origin_price" class="form-label">原價</label>
+                  <input id="origin_price" v-model="product.origin_price" class="form-control" type="number"
+                    min="0" placeholder="請輸入原價">
+                </div>
+                <div class="col-6">
+                  <label for="price" class="form-label">售價</label>
+                  <input id="price" v-model="product.price" class="form-control" type="number" min="0"
+                    placeholder="請輸入售價">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">產品描述</label>
+                <textarea id="description" v-model="product.description" type="text" class="form-control"
+                  placeholder="請輸入產品描述"></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="content" class="form-label">說明內容</label>
+                <textarea id="content" v-model="product.content" type="text" class="form-control"
+                  placeholder="請輸入說明內容"></textarea>
+              </div>
+
+              <div class="mb-3">
+                <div class="form-check">
+                  <input id="is_enabled" v-model="product.is_enabled" type="checkbox" class="form-check-input"
+                    :true-value="1" :false-value="0">
+                  <label for="is_enabled" class="form-check-label">是否啟用</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <h4 class="mb-2">多圖新增</h4>
+          <button class="btn btn-outline-primary mb-3"
+            @click="product.imagesUrl ? product.imagesUrl.push('') : product.imagesUrl = ['']">新增圖片</button>
+          <div class="row" v-if="Array.isArray(product.imagesUrl) && product.imagesUrl.length > 0">
+            <div class="col-6" v-for="(image, index) in product.imagesUrl" :key="index">
+              <label :for="`imageUrl-${index}`" class="form-label">圖片網址</label>
+              <input :id="`imageUrl-${index}`" v-model="product.imagesUrl[index]" class="form-control mb-2"
+                type="text" placeholder="請輸入圖片連結">
+              <img class="img-fluid" :src="image" alt="">
+              <button class="btn btn-outline-danger btn-sm mt-3"
+                @click="product.imagesUrl.splice(index, 1)">刪除圖片</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" @click="updateProduct">確認</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </script>
+
+  <script type="text/x-template" id="delProductModal">
+    <div id="delProductModal" ref="delProductModal" class="modal fade" tabindex="-1"
+      aria-labelledby="delProductModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 id="delProductModalLabel" class="modal-title">刪除產品</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            是否刪除
+            <strong class="text-danger">{{ product.title }}</strong> 商品(刪除後將無法恢復)。
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+            <button @click="delProduct" type="button" class="btn btn-danger">確認刪除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="./products.js" type="module"></script>
+  <script src="../../utils/particlesSnow.js"></script>
+</body>
+
+</html>

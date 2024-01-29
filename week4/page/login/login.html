@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Week4</title>
+    <style>
+        body {
+            background: #222431;
+        }
+
+        .login-form {
+            height: 70vh;
+        }
+
+        .login-form-left {
+            background-image: url("../../assets/LoginBear.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <div id="app" class="container-fluid vh-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="login-form row col-md-10 col-lg-9 col-xl-8 col-xxl-7 p-0 bg-light rounded-3 overflow-hidden">
+                <!-- login left image -->
+                <div class="login-form-left col-6"></div>
+                <!-- login right form -->
+                <div class="login-form-right col-6">
+                    <div class="h-100 row align-items-center justify-content-center">
+                        <form class="col-10" @submit.prevent="login">
+                            <h1 class="h3 mb-4 text-center font-weight-normal">請先登入</h1>
+                            <div class="form-floating mb-3">
+                                <input v-model="user.username" type="email" id="username" class="form-control"
+                                    placeholder="name@example.com" required autofocus>
+                                <label for="username">Email Address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input v-model="user.password" type="password" id="password" class="form-control"
+                                    placeholder="Password" required>
+                                <label for="password">Password</label>
+                            </div>
+                            <button type="submit" class="btn btn-lg btn-primary w-100 mb-2">登入</button>
+                            <p class="text-center text-muted">
+                                &copy; 2023~∞ - Jason
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="../../utils/particlesSnow.js"></script>
+    <script src="./login.js" type="module"></script>
+</body>
+
+</html>
