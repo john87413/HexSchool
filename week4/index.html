@@ -2,16 +2,123 @@
 <html lang="zh-Hant-TW">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Week4</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week4</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <style>
+    body {
+      background: #222431;
+    }
+
+    [v-cloak] {
+      display: none;
+    }
+
+    .table-container {
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .bg-spinner {
+      z-index: 9999;
+    }
+  </style>
 </head>
 
 <body>
-    <script>
-        window.location = "./page/product/products.html";
-    </script>
+  <div id="particles-js"></div>
+  <div id="app" class="vh-100 container" v-cloak>
+    <template v-if="isLoading">
+      <Loader></Loader>
+    </template>
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-md-12 col-lg-11 rounded-3 overflow-hidden p-0 bg-white">
+        <div class="table-title px-4 py-3 mb-3 bg-primary-subtle d-flex justify-content-between">
+          <h3 class="m-0">動物領養</h3>
+          <button type="button" class="btn btn-primary" @click="openModal('new')">新增動物</button>
+        </div>
+
+        <div class="table-container px-4 mb-3 fs-5">
+          <table class="table table-striped table-hover table-borderless m-0">
+            <thead class="sticky-top">
+              <tr>
+                <th scope="col" class="col-2">分類</th>
+                <th scope="col" class="col-2">動物名稱</th>
+                <th scope="col" class="col-1">原價</th>
+                <th scope="col" class="col-1">售價</th>
+                <th scope="col" class="col-1">啟用</th>
+                <th scope="col" class="col-2">編輯</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in products" :key="item.id">
+                <td>{{item.category}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.origin_price}}</td>
+                <td>{{item.price}}</td>
+                <td>
+                  <span v-if="item.is_enabled">啟用</span>
+                  <span v-else>未啟用</span>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-success me-2"
+                    @click="openModal('edit', item)">編輯</button>
+                  <button type="button" class="btn btn-outline-danger" @click="openModal('delete', item)">刪除</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- pagination -->
+        <pagination class="px-4" :pages="pagination" :is-loading="isLoading" @emit-pages="getData"></pagination>
+      </div>
+    </div>
+
+    <!-- modal for create & update -->
+    <add-edit-product-modal ref="addEditProductModal" :product="tempProduct" :is-new="isNew" :is-loading="isLoading"
+      @update="getData"></add-edit-product-modal>
+
+    <!-- modal for delete -->
+    <del-product-modal ref="delProductModal" :product="tempProduct" :is-loading="isLoading"
+      @update="getData"><del-product-modal>
+
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.6/index.iife.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.7/pinia.iife.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <script src="./index.js" type="module"></script>
+
+  <script src="./utils/particlesSnow.js"></script>
 </body>
 
 </html>

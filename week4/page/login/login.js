@@ -20,7 +20,7 @@ createApp({
         )}; path=/`;
         window.location = "../product/products.html";
       } catch (error) {
-        alert(error.response.data.message);
+        sweetAlert.popupAlert(error.response.data.message, 'error')
       }
     },
   },
