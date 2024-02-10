@@ -18,7 +18,7 @@ createApp({
         document.cookie = `hexToken=${token};expires=${new Date(
           expired
         )}; path=/`;
-        window.location = "../product/products.html";
+        window.location = `${window.location.origin}/WeekHomework/week4/index.html`;
       } catch (error) {
         sweetAlert.popupAlert(error.response.data.message, 'error')
       }

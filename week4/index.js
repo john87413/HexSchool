@@ -43,7 +43,7 @@ const app = createApp({
       } catch (error) {
         this.updateLoading(false);
         sweetAlert.popupAlert(error.response.data.message, "error");
-        window.location = "../login/login.html";
+        window.location = `${window.location.origin}/WeekHomework/week4/page/login/login.html`;
       }
     },
     // get products by page
@@ -57,7 +57,7 @@ const app = createApp({
         this.updateLoading(false);
       } catch (error) {
         this.updateLoading(false);
-        alert(error.response.data.message);
+        sweetAlert.popupAlert(error.response.data.message, "error");
         window.location = "../login/login.html";
       }
     },
