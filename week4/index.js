@@ -43,7 +43,7 @@ const app = createApp({
       } catch (error) {
         this.updateLoading(false);
         sweetAlert.popupAlert(error.response.data.message, "error");
-        window.location = `${window.location.origin}/WeekHomework/week4/page/login/login.html`;
+        window.location = "./page/login/login.html";
       }
     },
     // get products by page
@@ -58,7 +58,7 @@ const app = createApp({
       } catch (error) {
         this.updateLoading(false);
         sweetAlert.popupAlert(error.response.data.message, "error");
-        window.location = "../login/login.html";
+        window.location = "./page/login/login.html";
       }
     },
     // open specific modal (create/update/delete modal)
