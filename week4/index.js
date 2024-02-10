@@ -1,8 +1,8 @@
 // components
 import AddEditProductModal from "./components/addEditProductModal.js";
-import DelProductModal from "./components/DelProductModal.js";
-import Pagination from "./components/Pagination.js";
-import Loader from "./components/Loader.js";
+import DelProductModal from "./components/delProductModal.js";
+import Pagination from "./components/pagination.js";
+import Loader from "./components/loader.js";
 
 // Services
 import AuthService from "./services/auth.service.js";
