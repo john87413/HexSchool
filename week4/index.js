@@ -85,6 +85,7 @@ const app = createApp({
       /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
+    console.log(token);
     axios.defaults.headers.common.Authorization = token;
 
     // check login
